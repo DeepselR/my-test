@@ -1,0 +1,6 @@
+<ul class="nav flex-column">
+  <li *ngFor="let item of menuItems;" class="nav-item bt">
+    <a routerLink="/register" [queryParams]="{name: item.class, code: item.code}">{{item.name}}</a>
+    <app-menu [menuItems]="item.childs" *ngIf="item.childs"></app-menu>
+  </li>
+</ul>
