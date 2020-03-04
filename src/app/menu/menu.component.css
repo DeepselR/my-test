@@ -1,5 +1,6 @@
 li app-menu {
   display: none;
+
 }
 
 li:hover app-menu {
@@ -8,5 +9,15 @@ li:hover app-menu {
 
 .bt {
   display: block;
-  border: 1px solid;
+  /*border: 1px solid;*/
+}
+
+ul {
+  margin-inline-start: 30px;
+}
+
+a {
+  width: inherit;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

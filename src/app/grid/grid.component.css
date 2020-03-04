@@ -1,0 +1,23 @@
+.hidden-column {
+  display: none;
+}
+
+.selected {
+  background-color: #58a1ff !important;
+}
+
+.selected:hover {
+  cursor: pointer;
+}
+
+.selected:active {
+  cursor: pointer;
+}
+
+.record:hover {
+  cursor: pointer;
+}
+
+.record:active {
+  cursor: pointer;
+}

@@ -58,6 +58,10 @@ export class RestService {
   }
 
   getPostTableData<T>(name: string, data: {}): Observable<T[]> {
-    return this.methodPost<T>(BASE_URL + API + ERZ_REST + DATA + '/' + name, data).pipe(map(response => response[name]));
+    return this.methodPost<T>(BASE_URL + API + ERZ_REST + DATA + '/' + name, data).pipe(map(response => {
+      if (response) {
+        return response[name];
+      }
+    }));
   }
 }

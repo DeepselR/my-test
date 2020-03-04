@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {RestService} from '../service/rest.service';
+import {ListGridRecord} from "../model/ListGridRecord";
+
 
 @Component({
   selector: 'app-grid',
@@ -11,7 +13,9 @@ export class GridComponent implements OnInit {
 
   @Input() name$: Observable<string>;
   structure: [];
-  data: [];
+  fieldsMap: Map<string, {}>;
+  data: ListGridRecord[];
+  private selectedRecord: ListGridRecord;
 
   constructor(private restService: RestService) {
   }
@@ -21,15 +25,47 @@ export class GridComponent implements OnInit {
       if (name) {
         this.restService.getStructure(name).subscribe(structure => {
           this.structure = structure[name];
+          this.fieldsMap = this.createFieldsMap();
           this.restService.getPostTableData(name, {
             min: 1,
             max: 25
           }).subscribe(data => {
-            this.data = data[name];
+            if (data) {
+              this.data = this.convertToRecords(data);
+            }
           });
         });
       }
     });
   }
 
+  private createFieldsMap(): Map<string, {}> {
+    const map: Map<string, {}> = new Map<string, {}>();
+    this.structure.forEach(value => {
+      map.set(value['name'], value);
+    });
+    console.log(map);
+    return map;
+  }
+
+  private convertToRecords(data) {
+    const array: ListGridRecord[] = new Array<ListGridRecord>();
+    data.map(value => {
+      const record = new ListGridRecord();
+      const strings = Object.keys(value);
+      strings.forEach(key => {
+        record.setAttribute(key, value[key]);
+      });
+      array.push(record);
+    });
+    return array;
+  }
+
+  selectRecord(record: ListGridRecord): void {
+    this.selectedRecord = record;
+  }
+
+  onDoubleClick(): void {
+    console.log(this.selectedRecord);
+  }
 }
