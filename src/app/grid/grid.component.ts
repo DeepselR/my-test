@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {RestService} from "../service/rest.service";
+import {RestService} from '../service/rest.service';
 
 @Component({
   selector: 'app-grid',
