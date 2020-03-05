@@ -1,8 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {RestService} from '../service/rest.service';
-import {ListGridRecord} from "../model/ListGridRecord";
-
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { RestService } from '../service/rest.service';
+import { ListGridRecord } from '../model/ListGridRecord';
 
 @Component({
   selector: 'app-grid',
@@ -10,15 +9,14 @@ import {ListGridRecord} from "../model/ListGridRecord";
   styleUrls: ['./grid.component.css']
 })
 export class GridComponent implements OnInit {
-
   @Input() name$: Observable<string>;
+
   structure: [];
   fieldsMap: Map<string, {}>;
   data: ListGridRecord[];
   private selectedRecord: ListGridRecord;
 
-  constructor(private restService: RestService) {
-  }
+  constructor(private restService: RestService) {}
 
   ngOnInit(): void {
     this.name$.subscribe(name => {
@@ -26,14 +24,16 @@ export class GridComponent implements OnInit {
         this.restService.getStructure(name).subscribe(structure => {
           this.structure = structure[name];
           this.fieldsMap = this.createFieldsMap();
-          this.restService.getPostTableData(name, {
-            min: 1,
-            max: 25
-          }).subscribe(data => {
-            if (data) {
-              this.data = this.convertToRecords(data);
-            }
-          });
+          this.restService
+            .getPostTableData(name, {
+              min: 1,
+              max: 25
+            })
+            .subscribe(data => {
+              if (data) {
+                this.data = this.convertToRecords(data);
+              }
+            });
         });
       }
     });
@@ -67,5 +67,12 @@ export class GridComponent implements OnInit {
 
   onDoubleClick(): void {
     console.log(this.selectedRecord);
+  }
+
+  getStructureFieldHidden(attribute: string): boolean {
+    if (this.fieldsMap && this.fieldsMap.size > 0 && this.fieldsMap.get(attribute)) {
+      return this.fieldsMap.get(attribute)['hidden'];
+    }
+    return false;
   }
 }

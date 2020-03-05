@@ -1,31 +1,33 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {IFunct} from '../model/IFunct';
-import {MenuItem} from '../model/MenuItem';
-import {RestService} from '../service/rest.service';
-import {ActivatedRoute, ParamMap} from '@angular/router';
-import {Subject} from "rxjs";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { IFunct } from "../model/IFunct";
+import { MenuItem } from "../model/MenuItem";
+import { RestService } from "../service/rest.service";
+import { ActivatedRoute, ParamMap } from "@angular/router";
+import { Subject } from "rxjs";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit, OnDestroy {
-
   menuItems: MenuItem[];
 
   private sub;
-  private gridName$: Subject<string> = new Subject<string>();
+  gridName$: Subject<string> = new Subject<string>();
+  gridTitle: string;
 
-  constructor(private restService: RestService, private activeRoute: ActivatedRoute) {
-  }
+  constructor(
+    private restService: RestService,
+    private activeRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.sub = this.restService
-    .getTableData <IFunct>('ifunct')
-    .subscribe(value => {
-      this.buildMenu(value);
-    });
+      .getTableData<IFunct>("ifunct")
+      .subscribe(value => {
+        this.buildMenu(value);
+      });
 
     this.activeRoute.queryParamMap.subscribe(params => {
       this.reloadGridData(params);
@@ -33,8 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private reloadGridData(params: ParamMap) {
-    console.log(params);
-    this.gridName$.next(params.get('name'));
+    this.gridName$.next(params.get("name"));
   }
 
   private buildMenu(menuFunc: IFunct[]) {
@@ -57,7 +58,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         menuItem.childs = map.get(menuItem.id);
       }
     });
-
     this.menuItems = this.menuItems.filter(value => value.parentId == '');
   }
 
@@ -68,6 +68,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     menuItem.parentId = data.nparent;
     menuItem.class = data.vformclass;
     menuItem.code = data.vformcode;
+    menuItem.path = data.menupath;
     return menuItem;
   }
 

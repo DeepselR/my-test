@@ -4,5 +4,6 @@ export class MenuItem {
   name: string;
   code: string;
   class: string;
+  path: string;
   childs: MenuItem[];
 }
