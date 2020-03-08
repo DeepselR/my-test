@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
-import { MenuItem } from '../model/MenuItem';
-import { EventEmitter } from 'protractor';
+import {Component, Input, OnInit} from '@angular/core';
+import {MenuItem} from '../model/MenuItem';
 
 @Component({
   selector: 'app-menu',
@@ -8,9 +7,16 @@ import { EventEmitter } from 'protractor';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
+
   @Input() menuItems: MenuItem[];
 
-  constructor() {}
+  constructor() {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
+
+
 }
+
