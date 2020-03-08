@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { RestService } from '../service/rest.service';
-import { ListGridRecord } from '../model/ListGridRecord';
+import {Component, Input, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
+import {RestService} from '../service/rest.service';
+import {ListGridRecord} from '../model/ListGridRecord';
 
 @Component({
   selector: 'app-grid',
