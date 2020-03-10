@@ -8,6 +8,8 @@ import {HomeComponent} from './home/home.component';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule, Routes} from '@angular/router';
 import {GridComponent} from './grid/grid.component';
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { PopupComponent } from './popup/popup.component';
 
 const appRoutes: Routes = [
   {path: 'register', component: HomeComponent},
@@ -19,7 +21,9 @@ const appRoutes: Routes = [
     MenuComponent,
     HeaderComponent,
     HomeComponent,
-    GridComponent
+    GridComponent,
+    DynamicFormComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {RestService} from '../service/rest.service';
 import {ListGridRecord} from '../model/ListGridRecord';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {DynamicFormComponent} from "../dynamic-form/dynamic-form.component";
+import {PopupComponent} from "../popup/popup.component";
 
 @Component({
   selector: 'app-grid',
@@ -15,8 +18,10 @@ export class GridComponent implements OnInit {
   fieldsMap: Map<string, {}>;
   data: ListGridRecord[];
   private selectedRecord: ListGridRecord;
+  cardName: string;
 
-  constructor(private restService: RestService) {}
+  constructor(private restService: RestService, private modalService: NgbModal) {
+  }
 
   ngOnInit(): void {
     this.name$.subscribe(name => {
@@ -44,7 +49,7 @@ export class GridComponent implements OnInit {
     this.structure.forEach(value => {
       map.set(value['name'], value);
     });
-    console.log(map);
+    this.cardName = map.get('root')['cardname'];
     return map;
   }
 
@@ -67,6 +72,8 @@ export class GridComponent implements OnInit {
 
   onDoubleClick(): void {
     console.log(this.selectedRecord);
+    let modalRef = this.modalService.open(PopupComponent);
+    modalRef.componentInstance.structureName = this.cardName;
   }
 
   getStructureFieldHidden(attribute: string): boolean {
