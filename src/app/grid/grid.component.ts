@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {RestService} from '../service/rest.service';
-import {ListGridRecord} from '../model/ListGridRecord';
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {DynamicFormComponent} from "../dynamic-form/dynamic-form.component";
-import {PopupComponent} from "../popup/popup.component";
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { RestService } from '../service/rest.service';
+import { ListGridRecord } from '../model/ListGridRecord';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
+import { PopupComponent } from '../popup/popup.component';
 
 @Component({
   selector: 'app-grid',
@@ -20,8 +20,10 @@ export class GridComponent implements OnInit {
   private selectedRecord: ListGridRecord;
   cardName: string;
 
-  constructor(private restService: RestService, private modalService: NgbModal) {
-  }
+  constructor(
+    private restService: RestService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.name$.subscribe(name => {
@@ -30,15 +32,15 @@ export class GridComponent implements OnInit {
           this.structure = structure[name];
           this.fieldsMap = this.createFieldsMap();
           this.restService
-          .getPostTableData(name, {
-            min: 1,
-            max: 25
-          })
-          .subscribe(data => {
-            if (data) {
-              this.data = this.convertToRecords(data);
-            }
-          });
+            .getPostTableData(name, {
+              min: 1,
+              max: 25
+            })
+            .subscribe(data => {
+              if (data) {
+                this.data = this.convertToRecords(data);
+              }
+            });
         });
       }
     });
@@ -72,12 +74,16 @@ export class GridComponent implements OnInit {
 
   onDoubleClick(): void {
     console.log(this.selectedRecord);
-    let modalRef = this.modalService.open(PopupComponent);
+    let modalRef = this.modalService.open(PopupComponent, { centered: true , size: 'lg'});
     modalRef.componentInstance.structureName = this.cardName;
   }
 
   getStructureFieldHidden(attribute: string): boolean {
-    if (this.fieldsMap && this.fieldsMap.size > 0 && this.fieldsMap.get(attribute)) {
+    if (
+      this.fieldsMap &&
+      this.fieldsMap.size > 0 &&
+      this.fieldsMap.get(attribute)
+    ) {
       return this.fieldsMap.get(attribute)['hidden'];
     }
     return false;

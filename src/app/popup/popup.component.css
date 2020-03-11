@@ -15,8 +15,19 @@
 
 .windowFooter {
   width: 100%;
-  height: 41px;
+  position: relative;
+  height: 47px;
   background-color: #ffffff;
   border-top: 1px solid #ebebeb;
 }
 
+.buttons-layout {
+  position: absolute;
+  width: 100%;
+  top: 4px;
+  text-align: right;
+}
+
+.buttons-layout > button {
+  margin: 0 5px;
+}
