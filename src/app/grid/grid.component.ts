@@ -74,7 +74,7 @@ export class GridComponent implements OnInit {
 
   onDoubleClick(): void {
     console.log(this.selectedRecord);
-    let modalRef = this.modalService.open(PopupComponent, { centered: true , size: 'lg'});
+    let modalRef = this.modalService.open(PopupComponent, { centered: true , size: 'lg', backdrop: 'static', keyboard: false});
     modalRef.componentInstance.structureName = this.cardName;
   }
 
