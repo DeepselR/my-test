@@ -7,13 +7,13 @@ import {Component, OnInit} from '@angular/core';
 })
 export class DynamicFormComponent implements OnInit {
 
-  structureName: string;
+
 
   constructor() {
   }
 
   ngOnInit(): void {
-    console.log(this.structureName);
+
   }
 
 }
