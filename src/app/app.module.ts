@@ -10,6 +10,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {GridComponent} from './grid/grid.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { PopupComponent } from './popup/popup.component';
+import { FormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   {path: 'register', component: HomeComponent},

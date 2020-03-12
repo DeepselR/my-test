@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { IFunct } from "../model/IFunct";
-import { MenuItem } from "../model/MenuItem";
-import { RestService } from "../service/rest.service";
-import { ActivatedRoute, ParamMap } from "@angular/router";
-import { Subject } from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { IFunct } from '../model/IFunct';
+import { MenuItem } from '../model/MenuItem';
+import { RestService } from '../service/rest.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
-  selector: "app-home",
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.css"]
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
   menuItems: MenuItem[];
@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.restService
-      .getTableData<IFunct>("ifunct")
+      .getTableData<IFunct>('ifunct')
       .subscribe(value => {
         this.buildMenu(value);
       });
@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private reloadGridData(params: ParamMap) {
-    this.gridName$.next(params.get("name"));
+    this.gridName$.next(params.get('name'));
   }
 
   private buildMenu(menuFunc: IFunct[]) {

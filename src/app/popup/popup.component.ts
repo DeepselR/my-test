@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {RestService} from '../service/rest.service';
-import {Subscription} from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { RestService } from '../service/rest.service';
+import { Subscription, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-popup',
@@ -9,22 +9,24 @@ import {Subscription} from "rxjs";
   styleUrls: ['./popup.component.css']
 })
 export class PopupComponent implements OnInit, OnDestroy {
-
   structureName: string;
+  formStructure: Subject<{}> = new Subject();
   sub: Subscription;
 
-  constructor(public activeModal: NgbActiveModal, private restService: RestService) {
-  }
+  constructor(
+    public activeModal: NgbActiveModal,
+    private restService: RestService
+  ) {}
 
   ngOnInit(): void {
-    const sub = this.restService.getStructure(this.structureName).subscribe(structure => {
-
-    });
-    console.log(this.structureName);
+    this.sub = this.restService
+      .getStructure(this.structureName)
+      .subscribe(structure => {
+        this.formStructure.next(structure);
+      });
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
-
 }

@@ -1,6 +1,11 @@
-<p>dynamic-form works!</p>
-<p>dynamic-form works!</p>
-<p>dynamic-form works!</p>
-<p>dynamic-form works!</p>
-<p>dynamic-form works!</p>
-<p>dynamic-form works!</p>
+<div class="container">
+  <div class="row">
+    <ng-container *ngFor="let field of this.fields">
+      <div [ngClass]="getStructureFieldHidden(field['name']) ? 'hidden-field' : field" class="form-group col-12">
+        <label for="{{field['name']}}">{{ field['title'] }}</label>
+        <input type="text" class="form-control" aria-describedby="emailHelp" />
+        <small id="emailHelp" class="form-text text-muted">{{field['promt']}}</small>
+      </div>
+    </ng-container>
+  </div>
+</div>
