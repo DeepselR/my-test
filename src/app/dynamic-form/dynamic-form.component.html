@@ -1,7 +1,11 @@
 <div class="container">
   <form class="row" [formGroup]="form" (submit)="onSubmit($event)">
-    <ng-container class="my-class" *ngFor="let field of this.fields" dynamicField [field]="field" [group]="form">
+    <ng-container *ngFor="let field of this.fields" dynamicField [field]="field" [group]="form"
+                  [colSpan]="field.colSpan ? field.colSpan : '12'">
 
     </ng-container>
+    <div>
+      {{this.form.value | json}}
+    </div>
   </form>
 </div>

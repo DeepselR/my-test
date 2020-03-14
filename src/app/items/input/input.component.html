@@ -1,5 +1,5 @@
-<div [ngClass]="getStructureFieldHidden(field) ? 'hidden-field' : field" class="form-group col-12">
+<div [formGroup]="group" [ngClass]="getStructureFieldHidden(field) ? 'hidden-field' : field" class="form-group">
   <label for="{{field.name}}">{{ field.label }}</label>
-  <input type="text" class="form-control"/>
+  <input [formControlName]="field.name" type="text" class="form-control"/>
   <small id="emailHelp" class="form-text text-muted">{{field.prompt}}</small>
 </div>

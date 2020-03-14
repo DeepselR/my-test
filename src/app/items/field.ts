@@ -13,6 +13,8 @@ export class Field {
   type: string;
   value?: any;
   validations?: Validator[];
+  colSpan?: string;
+  hidden?: boolean;
 }
 
 export class FieldData {
@@ -20,4 +22,5 @@ export class FieldData {
   type?: string;
   hidden?: boolean;
   title?: string;
+  nlength?: string;
 }

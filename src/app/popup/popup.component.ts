@@ -33,6 +33,8 @@ export class PopupComponent implements OnInit, OnDestroy {
     const field = new Field();
     field.name = value.name;
     field.label = value.title;
+    field.colSpan = value.nlength;
+    field.hidden = value.hidden;
     if (value.type === 'string') {
       field.inputType = 'text';
       field.type = 'input';
