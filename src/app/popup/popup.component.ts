@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { RestService } from '../service/rest.service';
-import { Subscription, Subject } from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {Field, FieldData} from "../items/field";
 
 @Component({
   selector: 'app-popup',
@@ -9,24 +8,35 @@ import { Subscription, Subject } from 'rxjs';
   styleUrls: ['./popup.component.css']
 })
 export class PopupComponent implements OnInit, OnDestroy {
-  structureName: string;
-  formStructure: Subject<{}> = new Subject();
-  sub: Subscription;
 
-  constructor(
-    public activeModal: NgbActiveModal,
-    private restService: RestService
-  ) {}
+  structure: {};
+
+  cardName: string;
+
+  formsData: Map<string, Field[]> = new Map<string, Field[]>();
+
+  constructor(public activeModal: NgbActiveModal) {
+
+  }
 
   ngOnInit(): void {
-    this.sub = this.restService
-      .getStructure(this.structureName)
-      .subscribe(structure => {
-        this.formStructure.next(structure);
-      });
+    const fields = Array.from<FieldData>(this.structure[this.cardName])
+    .filter(value => value.type !== 'object')
+    .map(value => this.createField(value));
+    this.formsData.set(this.cardName, fields);
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+  }
+
+  private createField(value: FieldData): Field {
+    const field = new Field();
+    field.name = value.name;
+    field.label = value.title;
+    if (value.type === 'string') {
+      field.inputType = 'text';
+      field.type = 'input';
+    }
+    return field;
   }
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import {Component, Input, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {Field} from "../items/field";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -7,48 +8,36 @@ import { Observable } from 'rxjs';
   styleUrls: ['./dynamic-form.component.css']
 })
 export class DynamicFormComponent implements OnInit {
-  @Input() structure$: Observable<{}>;
 
-  @Input() structureName: string;
+  @Input() fields?: Field[];
 
-  private structure: {};
+  form: FormGroup;
 
-  fieldsMap: Map<string, {}> = new Map();
+  constructor(private fb: FormBuilder) {
 
-  fields: {}[] = [];
-
-  constructor() {}
+  }
 
   ngOnInit(): void {
-    this.structure$.subscribe(structure => {
-      this.structure = structure;
-      this.fillMetaData();
+    this.form = this.createControl();
+  }
+
+  get value() {
+    return this.form.value;
+  }
+
+  private createControl() {
+    const group = this.fb.group({});
+    this.fields.forEach(field => {
+      const control = this.fb.control(
+        field.value
+      );
+      group.addControl(field.name, control);
     });
+    return group;
+
   }
 
-  fillMetaData(): void {
-    this.fieldsMap = this.createFieldsMap();
-    console.log(this.fieldsMap);
-  }
+  onSubmit($event: Event) {
 
-  createFieldsMap(): Map<string, {}> {
-    const map: Map<string, {}> = new Map<string, {}>();
-    this.structure[this.structureName].forEach(value => {
-      map.set(value['name'], value);
-      this.fields.push(value);
-    });
-    return map;
-  }
-
-
-  getStructureFieldHidden(attribute: string): boolean {
-    if (
-      this.fieldsMap &&
-      this.fieldsMap.size > 0 &&
-      this.fieldsMap.get(attribute)
-    ) {
-      return this.fieldsMap.get(attribute)['hidden'];
-    }
-    return false;
   }
 }

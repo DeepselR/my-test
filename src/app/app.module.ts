@@ -10,7 +10,9 @@ import {RouterModule, Routes} from '@angular/router';
 import {GridComponent} from './grid/grid.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { PopupComponent } from './popup/popup.component';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { InputComponent } from './items/input/input.component';
+import { DynamicFieldDirective } from './items/derictive/dynamic-field.directive';
 
 const appRoutes: Routes = [
   {path: 'register', component: HomeComponent},
@@ -24,7 +26,9 @@ const appRoutes: Routes = [
     HomeComponent,
     GridComponent,
     DynamicFormComponent,
-    PopupComponent
+    PopupComponent,
+    InputComponent,
+    DynamicFieldDirective
   ],
   imports: [
     BrowserModule,
@@ -32,7 +36,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes,
       {enableTracing: false} // <-- debugging purposes only
-    )
+    ),
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

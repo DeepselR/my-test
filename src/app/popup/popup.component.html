@@ -1,10 +1,7 @@
 <div>
   <div class="windowHeader"></div>
   <div class="windowBody">
-    <app-dynamic-form
-      [structureName]="this.structureName"
-      [structure$]="this.formStructure"
-    ></app-dynamic-form>
+    <app-dynamic-form [fields]="this.formsData?.get(this.cardName)"></app-dynamic-form>
   </div>
   <div>
     <div class="windowFooter">
