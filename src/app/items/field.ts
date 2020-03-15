@@ -15,6 +15,8 @@ export class Field {
   validations?: Validator[];
   colSpan?: string;
   hidden?: boolean;
+  codefilter?: string;
+  relatedfields?: string;
 }
 
 export class FieldData {
@@ -23,4 +25,6 @@ export class FieldData {
   hidden?: boolean;
   title?: string;
   nlength?: string;
+  codefilter?: string;
+  relatedfields?: string;
 }

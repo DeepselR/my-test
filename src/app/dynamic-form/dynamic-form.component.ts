@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {Field} from "../items/field";
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Field} from '../items/field';
 
 @Component({
   selector: 'app-dynamic-form',

@@ -1,0 +1,7 @@
+<div [formGroup]="group" [ngClass]="getStructureFieldHidden(field) ? 'hidden-field' : field" class="form-group">
+  <label for="{{field.name}}">{{ field.label }}</label>
+  <select #element (change)="setRelated(element.value)" [formControlName]="field.name" class="custom-select">
+    <option *ngFor="let object of objects"
+            value="{{object[getRelatedValue(0)]}}">{{object[getRelatedValue(1)]}}</option>
+  </select>
+</div>
