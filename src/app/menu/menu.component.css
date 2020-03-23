@@ -5,15 +5,17 @@ li app-menu {
 
 li:hover app-menu {
   display: block;
+  position: relative;
+  z-index: 400;
+  /* background-color: #ebebeb; */
+  left: 10%;
+  background-color: #f8f9fa;
+  z-index: 4000;
 }
 
 .bt {
   display: block;
   /*border: 1px solid;*/
-}
-
-ul {
-  margin-inline-start: 30px;
 }
 
 a {
