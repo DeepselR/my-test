@@ -14,6 +14,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { InputComponent } from './items/input/input.component';
 import { DynamicFieldDirective } from './items/derictive/dynamic-field.directive';
 import { SelectComponent } from './items/select/select.component';
+import { CheckboxComponent } from './items/checkbox/checkbox.component';
 
 const appRoutes: Routes = [
   {path: 'register', component: HomeComponent},
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
     PopupComponent,
     InputComponent,
     DynamicFieldDirective,
-    SelectComponent
+    SelectComponent,
+    CheckboxComponent
   ],
   imports: [
     BrowserModule,

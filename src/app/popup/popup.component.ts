@@ -1,6 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {Field, FieldData} from "../items/field";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Field, FieldData } from '../items/field';
 
 @Component({
   selector: 'app-popup',
@@ -8,26 +8,22 @@ import {Field, FieldData} from "../items/field";
   styleUrls: ['./popup.component.css']
 })
 export class PopupComponent implements OnInit, OnDestroy {
-
   structure: {};
 
   cardName: string;
 
   formsData: Map<string, Field[]> = new Map<string, Field[]>();
 
-  constructor(public activeModal: NgbActiveModal) {
-
-  }
+  constructor(public activeModal: NgbActiveModal) {}
 
   ngOnInit(): void {
     const fields = Array.from<FieldData>(this.structure[this.cardName])
-    .filter(value => value.type !== 'object')
-    .map(value => this.createField(value));
+      .filter(value => value.type !== 'object')
+      .map(value => this.createField(value));
     this.formsData.set(this.cardName, fields);
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   private createField(value: FieldData): Field {
     const field = new Field();
@@ -44,6 +40,9 @@ export class PopupComponent implements OnInit, OnDestroy {
         field.inputType = 'text';
         field.type = 'input';
       }
+    }
+    if (value.type === 'boolean') {
+      field.type = 'checkbox';
     }
     return field;
   }
