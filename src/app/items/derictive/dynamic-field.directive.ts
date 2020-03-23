@@ -2,11 +2,6 @@ import {ComponentFactoryResolver, Directive, Input, OnInit, ViewContainerRef} fr
 import {FormGroup} from '@angular/forms';
 import {Field} from '../field';
 import {ComponentMapperService} from '../component-mapper.service';
-// import { ButtonComponent } from '../button/button.component';
-// import { SelectComponent } from '../select/select.component';
-// import { DateComponent } from '../date/date.component';
-// import { RadiobuttonComponent } from '../radiobutton/radiobutton.component';
-// import { CheckboxComponent } from '../checkbox/checkbox.component';
 
 @Directive({
   selector: '[dynamicField]',
