@@ -15,6 +15,7 @@ import { InputComponent } from './items/input/input.component';
 import { DynamicFieldDirective } from './items/derictive/dynamic-field.directive';
 import { SelectComponent } from './items/select/select.component';
 import { CheckboxComponent } from './items/checkbox/checkbox.component';
+import { PagerComponent } from './pager/pager.component';
 
 const appRoutes: Routes = [
   {path: 'register', component: HomeComponent},
@@ -32,7 +33,8 @@ const appRoutes: Routes = [
     InputComponent,
     DynamicFieldDirective,
     SelectComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    PagerComponent
   ],
   imports: [
     BrowserModule,

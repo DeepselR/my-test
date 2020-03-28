@@ -12,6 +12,7 @@ const API = '/api';
 const ERZ_REST = '/erz-rest';
 const DATA = '/data';
 const STRUCTURE = '/structure';
+const COUNT = '/count';
 
 @Injectable({
   providedIn: 'root'
@@ -63,5 +64,9 @@ export class RestService {
         return response[name];
       }
     }));
+  }
+
+  count(name: string): Observable<number> {
+    return this.methodPost(`${BASE_URL + API + ERZ_REST + COUNT}/${name}`, {});
   }
 }

@@ -1,9 +1,11 @@
 import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {RestService} from '../service/rest.service';
 import {ListGridRecord} from '../model/ListGridRecord';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {PopupComponent} from '../popup/popup.component';
+import {Field} from "../items/field";
+import {SearchForm} from "../model/SearchForm";
 
 @Component({
   selector: 'app-grid',
@@ -11,14 +13,17 @@ import {PopupComponent} from '../popup/popup.component';
   styleUrls: ['./grid.component.css']
 })
 export class GridComponent implements OnInit {
-  @Input() name$: Observable<string>;
 
+  @Input() name$: Observable<string>;
   structure: [];
-  fieldsMap: Map<string, {}>;
+  fieldsMap: Map<string, Field>;
   data: ListGridRecord[];
   private selectedRecord: ListGridRecord;
   cardName: string;
   @ViewChild('divElement') divElement: ElementRef;
+  private tableName: string;
+  private pagesCount$: Subject<number> = new Subject<number>();
+
 
   constructor(
     private restService: RestService,
@@ -29,27 +34,40 @@ export class GridComponent implements OnInit {
   ngOnInit(): void {
     this.name$.subscribe(name => {
       if (name) {
-        this.restService.getStructure(name).subscribe(structure => {
-          this.structure = structure[name];
-          this.fieldsMap = this.createFieldsMap();
-          this.restService
-          .getPostTableData(name, {
-            min: 1,
-            max: 25
-          })
-          .subscribe(data => {
-            if (data) {
-              this.data = this.convertToRecords(data);
-            }
-            this.updateHeight();
-          });
-        });
+        this.tableName = name;
+        this.loadStructure();
       }
     });
   }
 
-  private createFieldsMap(): Map<string, {}> {
-    const map: Map<string, {}> = new Map<string, {}>();
+  private loadStructure(): void {
+    this.restService.getStructure(this.tableName).subscribe(structure => {
+      this.structure = structure[this.tableName];
+      this.fieldsMap = this.createFieldsMap();
+      this.loadTableData(new SearchForm(1, 25));
+      this.countTableData();
+    });
+  }
+
+  private loadTableData(searchForm: SearchForm): void {
+    this.restService
+    .getPostTableData(this.tableName, searchForm)
+    .subscribe(data => {
+      if (data) {
+        this.data = this.convertToRecords(data);
+      }
+      this.updateHeight();
+    });
+  }
+
+  private countTableData(): void {
+    this.restService.count(this.tableName).subscribe(value => {
+      this.pagesCount$.next(Math.ceil(value / 25));
+    });
+  }
+
+  private createFieldsMap(): Map<string, Field> {
+    const map: Map<string, Field> = new Map<string, Field>();
     this.structure.forEach(value => {
       map.set(value['name'], value);
     });
@@ -77,7 +95,7 @@ export class GridComponent implements OnInit {
   onDoubleClick(): void {
     console.log(this.selectedRecord);
     this.restService.getStructure(this.cardName).subscribe(value => {
-      let modalRef = this.modalService.open(PopupComponent, {
+      const modalRef = this.modalService.open(PopupComponent, {
         centered: true,
         size: 'lg',
         backdrop: 'static',
@@ -90,12 +108,11 @@ export class GridComponent implements OnInit {
   }
 
   getStructureFieldHidden(attribute: string): boolean {
-    if (
-      this.fieldsMap &&
-      this.fieldsMap.size > 0 &&
-      this.fieldsMap.get(attribute)
-    ) {
-      return this.fieldsMap.get(attribute)['hidden'];
+    if (attribute === 'root') {
+      return true;
+    }
+    if (this.fieldsMap && this.fieldsMap.get(attribute)) {
+      return this.fieldsMap.get(attribute).hidden;
     }
     return false;
   }
@@ -106,6 +123,13 @@ export class GridComponent implements OnInit {
   }
 
   private updateHeight(): void {
-    this.divElement.nativeElement.style.height = (window.innerHeight - 40) + 'px';
+    this.divElement.nativeElement.style.height = (window.innerHeight - 110) + 'px';
+  }
+
+  private reload(event) {
+    console.log(event);
+    const max = event * 25;
+    const min = max - 24;
+    this.loadTableData(new SearchForm(min, max));
   }
 }
