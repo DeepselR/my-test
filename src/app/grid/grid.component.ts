@@ -1,4 +1,4 @@
-import {Component, Injector, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
 import {RestService} from '../service/rest.service';
 import {ListGridRecord} from '../model/ListGridRecord';
@@ -18,6 +18,7 @@ export class GridComponent implements OnInit {
   data: ListGridRecord[];
   private selectedRecord: ListGridRecord;
   cardName: string;
+  @ViewChild('divElement') divElement: ElementRef;
 
   constructor(
     private restService: RestService,
@@ -40,6 +41,7 @@ export class GridComponent implements OnInit {
             if (data) {
               this.data = this.convertToRecords(data);
             }
+            this.updateHeight();
           });
         });
       }
@@ -96,5 +98,14 @@ export class GridComponent implements OnInit {
       return this.fieldsMap.get(attribute)['hidden'];
     }
     return false;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.updateHeight();
+  }
+
+  private updateHeight(): void {
+    this.divElement.nativeElement.style.height = (window.innerHeight - 40) + 'px';
   }
 }

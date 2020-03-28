@@ -1,6 +1,6 @@
 <h2>{{gritTitle}}</h2>
-<div class="table-responsive">
-  <table class="table table-striped table-sm">
+<div #divElement class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
+  <table class="table table-bordered table-striped table-sm">
     <thead>
     <tr>
       <ng-container *ngFor="let object of structure">
@@ -10,7 +10,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let record of data" [ngClass]="record === selectedRecord ? 'selected' : 'record' "
+    <tr class="no-wrap" *ngFor="let record of data" [ngClass]="record === selectedRecord ? 'selected' :
+    'record' "
         (click)="selectRecord(record)" (dblclick)="onDoubleClick()">
       <ng-container *ngFor="let attribute of record.getAttributes()">
         <td [ngClass]="getStructureFieldHidden(attribute) ? 'hidden-column' : 'column'">
