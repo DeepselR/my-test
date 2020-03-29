@@ -43,3 +43,8 @@
 .space {
   margin: 10px;
 }
+
+.grid-title {
+  font-size: 20px;
+  min-height: 20px;
+}

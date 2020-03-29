@@ -4,8 +4,9 @@ import {RestService} from '../service/rest.service';
 import {ListGridRecord} from '../model/ListGridRecord';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {PopupComponent} from '../popup/popup.component';
-import {Field} from "../items/field";
-import {SearchForm} from "../model/SearchForm";
+import {Field} from '../items/field';
+import {SearchForm} from '../model/SearchForm';
+import {GridSettings} from '../model/GridSettings';
 
 @Component({
   selector: 'app-grid',
@@ -14,8 +15,8 @@ import {SearchForm} from "../model/SearchForm";
 })
 export class GridComponent implements OnInit {
 
-  @Input() name$: Observable<string>;
-  structure: [];
+  @Input() gridSettings$: Observable<GridSettings>;
+  structure: Field[];
   fieldsMap: Map<string, Field>;
   data: ListGridRecord[];
   private selectedRecord: ListGridRecord;
@@ -23,6 +24,7 @@ export class GridComponent implements OnInit {
   @ViewChild('divElement') divElement: ElementRef;
   private tableName: string;
   private pagesCount$: Subject<number> = new Subject<number>();
+  private title: string;
 
 
   constructor(
@@ -32,20 +34,24 @@ export class GridComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.name$.subscribe(name => {
-      if (name) {
-        this.tableName = name;
+    this.gridSettings$.subscribe(settings => {
+      if (settings.name !== this.tableName) {
+        this.tableName = settings.name;
         this.loadStructure();
       }
+      console.log(settings.title);
+      this.title = settings.title;
     });
   }
 
   private loadStructure(): void {
     this.restService.getStructure(this.tableName).subscribe(structure => {
-      this.structure = structure[this.tableName];
-      this.fieldsMap = this.createFieldsMap();
-      this.loadTableData(new SearchForm(1, 25));
-      this.countTableData();
+      if (structure) {
+        this.structure = structure[this.tableName];
+        this.fieldsMap = this.createFieldsMap();
+        this.loadTableData(new SearchForm(1, 25));
+        this.countTableData();
+      }
     });
   }
 
@@ -68,10 +74,12 @@ export class GridComponent implements OnInit {
 
   private createFieldsMap(): Map<string, Field> {
     const map: Map<string, Field> = new Map<string, Field>();
-    this.structure.forEach(value => {
-      map.set(value['name'], value);
-    });
-    this.cardName = map.get('root')['cardname'];
+    if (this.structure) {
+      this.structure.forEach(value => {
+        map.set(value.name, value);
+      });
+      this.cardName = map.get('root').cardname;
+    }
     return map;
   }
 
@@ -123,7 +131,7 @@ export class GridComponent implements OnInit {
   }
 
   private updateHeight(): void {
-    this.divElement.nativeElement.style.height = (window.innerHeight - 110) + 'px';
+    this.divElement.nativeElement.style.height = (window.innerHeight - 135) + 'px';
   }
 
   private reload(event) {

@@ -17,6 +17,7 @@ export class Field {
   hidden?: boolean;
   codefilter?: string;
   relatedfields?: string;
+  cardname?: string;
 }
 
 export class FieldData {

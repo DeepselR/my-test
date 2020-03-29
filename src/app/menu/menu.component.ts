@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MenuItem} from '../model/MenuItem';
 
 @Component({
@@ -9,6 +9,7 @@ import {MenuItem} from '../model/MenuItem';
 export class MenuComponent implements OnInit {
 
   @Input() menuItems: MenuItem[];
+  @Output() pathChange: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() {
   }
@@ -17,6 +18,13 @@ export class MenuComponent implements OnInit {
 
   }
 
+  onChangePath(item: MenuItem): void {
+    console.log('item.path ' + item.path);
+    this.pathChange.emit(item.path);
+  }
 
+  onSubMenuPath(event: string) {
+    this.pathChange.emit(event);
+  }
 }
 

@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IFunct } from '../model/IFunct';
-import { MenuItem } from '../model/MenuItem';
-import { RestService } from '../service/rest.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Subject } from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {IFunct} from '../model/IFunct';
+import {MenuItem} from '../model/MenuItem';
+import {RestService} from '../service/rest.service';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import {BehaviorSubject} from 'rxjs';
+import {GridSettings} from "../model/GridSettings";
 
 @Component({
   selector: 'app-home',
@@ -14,20 +15,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   menuItems: MenuItem[];
 
   private sub;
-  gridName$: Subject<string> = new Subject<string>();
-  gridTitle: string;
+  gridSettings$: BehaviorSubject<GridSettings> = new BehaviorSubject<GridSettings>(new GridSettings());
 
   constructor(
     private restService: RestService,
     private activeRoute: ActivatedRoute
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.sub = this.restService
-      .getTableData<IFunct>('ifunct')
-      .subscribe(value => {
-        this.buildMenu(value);
-      });
+    .getTableData<IFunct>('ifunct')
+    .subscribe(value => {
+      this.buildMenu(value);
+    });
 
     this.activeRoute.queryParamMap.subscribe(params => {
       this.reloadGridData(params);
@@ -35,7 +36,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private reloadGridData(params: ParamMap) {
-    this.gridName$.next(params.get('name'));
+    const settings = this.gridSettings$.getValue();
+    settings.name = params.get('name');
+    this.gridSettings$.next(settings);
   }
 
   private buildMenu(menuFunc: IFunct[]) {
@@ -74,5 +77,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  onChangePath(value: string): void {
+    console.log('value !!!' + value);
+    const settings = this.gridSettings$.getValue();
+    settings.title = value;
+    this.gridSettings$.next(settings);
   }
 }

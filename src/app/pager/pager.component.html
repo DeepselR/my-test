@@ -1,13 +1,13 @@
 <nav class="pager">
   <ul class="pagination">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1">Пред.</a>
+    <li class="page-item" [ngClass]="this.currentPage === 1 ? 'disabled' : ''">
+      <a class="page-link" (click)="onPreviousClick($event)" href="#" tabindex="-1">Пред.</a>
     </li>
     <li *ngFor="let i of pages" class="page-item" [ngClass]="i === currentPage ? 'active' : ''">
       <a (click)="onPageClick($event, i)" class="page-link" href="#">{{i}}</a>
     </li>
-    <li class="page-item">
-      <a class="page-link" href="#">След.</a>
+    <li class="page-item" [ngClass]="this.currentPage === this.pageSize ? 'disabled' : ''" >
+      <a class="page-link" (click)="onNextClick($event)" href="#">След.</a>
     </li>
   </ul>
 </nav>

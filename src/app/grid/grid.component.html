@@ -1,4 +1,4 @@
-<h2>{{gritTitle}}</h2>
+<h2 class="grid-title">{{title}}</h2>
 <div #divElement class="table-wrapper-scroll-y my-custom-scrollbar table-responsive space">
   <table class="table table-bordered table-striped table-sm mar-0">
     <thead>
@@ -15,8 +15,7 @@
     'record' "
         (click)="selectRecord(record)" (dblclick)="onDoubleClick()">
       <ng-container *ngFor="let attribute of record.getAttributes()">
-        <td [ngClass]="getStructureFieldHidden(attribute) ? 'hidden-column' :
-        'column'">
+        <td [ngClass]="getStructureFieldHidden(attribute) ? 'hidden-column' : 'column'">
           {{record.getAttribute(attribute)}}
         </td>
       </ng-container>
@@ -24,5 +23,5 @@
     </tbody>
   </table>
 </div>
-<app-pager *ngIf="this.pagesCount$" [pageCount$]="this.pagesCount$"
+<app-pager [pageCount$]="this.pagesCount$"
            (pageChange)="reload($event)"></app-pager>
