@@ -3,9 +3,9 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
-const TOKEN = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1Mjg2ODI3IiwibmFtZSI6ItCa0L7RgdGC0LXQstC40Ycg0JDQu9C10LrRgdC10L' +
-  'kg0J7Qu9C10LPQvtCy0LjRhyIsIm5tbnMiOiI4LjQyMDEiLCJjb250ZXh0IjoiZXJ6cmYtcHJpdmF0ZSIsInZpZCI6ImRldiIsImV4cCI6MTU4NTU1' +
-  'ODk0Mn0.LC4M2Cv8XD5hB9TT03Pp47Z1EIKKGPFhUTjbOmqdzWI';
+const TOKEN = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1Mjg2ODI3IiwibmFtZSI6ItCa0L7RgdGC0LXQstC40' +
+  'Ycg0JDQu9C10LrRgdC10Lkg0J7Qu9C10LPQvtCy0LjRhyIsIm5tbnMiOiI4LjQyMDEiLCJjb250ZXh0Ijoia2draXBrZCIs' +
+  'InZpZCI6ImRldiIsImV4cCI6MTU4NjM0MTE5NH0.Hugsc1rKHY5KXIfp7j-h3dCr820Qkw_tZSt5h-5uXbg';
 
 const BASE_URL = 'https://erz-dev.sws.by';
 const API = '/api';
